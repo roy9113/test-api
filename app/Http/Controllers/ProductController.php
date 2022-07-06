@@ -94,29 +94,40 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        try
+        $product = Product::find($id);
+
+        if ($product)
         {
-            $product = Product::find($id);
+            try
+            {
+                $product->update($request->only([
+                    'code',
+                    'name',
+                    'description'
+                ]));
 
-            $product->update($request->only([
-                'code',
-                'name',
-                'description'
-            ]));
+                return response()->json($product, 202);
+            }
+            catch (\Illuminate\Database\QueryException $e)
+            {
+                Log::error('Update Product Failed', [
+                    'context' => $e,
+                    'id' => $id
+                ]);
 
-            return response()->json($product, 202);
+                return response()->json([
+                    'error' => $e   // In production, do not show this error details
+                ], 500);
+            }
         }
-        catch (\Illuminate\Database\QueryException $e)
-        {
-            Log::error('Update Product Failed', [
-                'context' => $e,
-                'id' => $id
-            ]);
 
-            return response()->json([
-                'error' => $id   // In production, do not show this error details
-            ], 500);
-        }
+        Log::info('Product not found', [
+            'id' => $id
+        ]);
+
+        return response()->json([
+            'message' => 'Product was not found'
+        ], 404);
     }
 
     public function destroy($id)

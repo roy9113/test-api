@@ -1,24 +1,30 @@
-# Lumen PHP Framework
+# How to use this Lumen Application
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/lumen-framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/lumen)](https://packagist.org/packages/laravel/lumen-framework)
+1. Once the application is cloned from the github to local repo, first step is run composer install
+2. After composer install, run php artisan serve (Flipbox has been installed to make all artisan commands available to lumen project)
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+# Run Migrations
+3. php artisan migrate
 
-## Official Documentation
+# APIs End Points
+Get all products  
+http://127.0.0.1:8000/api/v1/products
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+Show single product with optional parameter to get product stock  
+http://127.0.0.1:8000/api/v1/product/1 (Fetch only products)  
+http://127.0.0.1:8000/api/v1/product/1/1 (Fetch products and it's stocks)
 
-## Contributing
+Delete Product  
+http://127.0.0.1:8000/api/v1/product/destroy/2
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Create Product (Make sure to provide necessary data)  
+http://127.0.0.1:8000/api/v1/product/create
 
-## Security Vulnerabilities
+Create Stock  
+http://127.0.0.1:8000/api/v1/stock/create
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Update Product
+http://127.0.0.1:8000/api/v1/product/update/2
 
-## License
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
