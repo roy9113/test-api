@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -31,12 +32,19 @@ class ProductController extends Controller
         }
         catch (\Illuminate\Database\QueryException $e)
         {
+            Log::error('Create Product Failed', [
+                'context' => $e
+            ]);
+
             return response()->json([
                 'error' => $e    // In production, do not show this error details
             ], 500);
         }
     }
 
+    /**
+     * Pass second optional parameter as 1, it will show stocks
+     */
     public function show(Request $request, $id, $getStock = null)
     {
         $product = Product::find($id);
@@ -75,6 +83,10 @@ class ProductController extends Controller
             ], 202);
         }
 
+        Log::info('Product not found', [
+            'id' => $id
+        ]);
+
         return response()->json('Product was not found', 404);
     }
 
@@ -94,8 +106,13 @@ class ProductController extends Controller
         }
         catch (\Illuminate\Database\QueryException $e)
         {
+            Log::error('Update Product Failed', [
+                'context' => $e,
+                'id' => $id
+            ]);
+
             return response()->json([
-                'error' => $e   // In production, do not show this error details
+                'error' => $id   // In production, do not show this error details
             ], 500);
         }
     }
@@ -113,6 +130,10 @@ class ProductController extends Controller
             }
             catch (\Illuminate\Database\QueryException $e)
             {
+                Log::error('Product delete failed', [
+                    'context' => $id
+                ]);
+
                 return response()->json([
                     'error' => $e    // In production, do not show this error details
                 ], 500);
