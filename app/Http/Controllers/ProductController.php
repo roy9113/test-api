@@ -87,7 +87,9 @@ class ProductController extends Controller
             'id' => $id
         ]);
 
-        return response()->json('Product was not found', 404);
+        return response()->json([
+            'message' => 'Product was not found'
+        ], 404);
     }
 
     public function update(Request $request, $id)
@@ -126,7 +128,9 @@ class ProductController extends Controller
             try
             {
                 $product->delete();
-                return response()->json('Product successfully deleted', 202);
+                return response()->json([
+                    'success' => 'Product successfully deleted'
+                ], 202);
             }
             catch (\Illuminate\Database\QueryException $e)
             {
